@@ -7,7 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Uri;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Config;
 use League\Flysystem\Util\MimeType;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Uses Guzzle as a backend for HTTP URLs.
  */
-class GuzzleAdapter implements AdapterInterface
+class GuzzleAdapter implements FilesystemAdapter
 {
     /**
      * Whether this endpoint supports head requests.
