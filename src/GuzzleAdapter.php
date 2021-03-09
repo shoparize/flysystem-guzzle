@@ -7,8 +7,16 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Uri;
+use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Config;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToCopyFile;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnableToDeleteDirectory;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\UnableToMoveFile;
+use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\Util\MimeType;
 use Psr\Http\Message\ResponseInterface;
 
@@ -73,26 +81,11 @@ class GuzzleAdapter implements FilesystemAdapter
         return $this->base;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function copy($path, $newpath)
-    {
-        return false;
-    }
 
     /**
      * @inheritdoc
      */
     public function createDir($path, Config $config)
-    {
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function delete($path)
     {
         return false;
     }
@@ -166,24 +159,13 @@ class GuzzleAdapter implements FilesystemAdapter
     /**
      * @inheritdoc
      */
-    public function listContents($directory = '', $recursive = false)
-    {
-        return [];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function read($path)
+    public function read($path): string
     {
         if ( ! $response = $this->get($path)) {
-            return false;
+            return '';
         }
 
-        return [
-            'path' => $path,
-            'contents' => (string) $response->getBody(),
-        ] + $this->getResponseMetadata($path, $response);
+        return $this->getResponseMetadata($path, $response);
     }
 
     /**
@@ -212,7 +194,7 @@ class GuzzleAdapter implements FilesystemAdapter
     /**
      * @inheritdoc
      */
-    public function setVisibility($path, $visibility)
+    public function setVisibility($path, $visibility): void
     {
         throw new \LogicException('GuzzleAdapter does not support visibility. Path: ' . $path . ', visibility: ' . $visibility);
     }
@@ -236,17 +218,15 @@ class GuzzleAdapter implements FilesystemAdapter
     /**
      * @inheritdoc
      */
-    public function write($path, $contents, Config $config)
+    public function write($path, $contents, Config $config): void
     {
-        return false;
     }
 
     /**
      * @inheritdoc
      */
-    public function writeStream($path, $resource, Config $config)
+    public function writeStream($path, $resource, Config $config): void
     {
-        return false;
     }
 
     /**
@@ -358,5 +338,60 @@ class GuzzleAdapter implements FilesystemAdapter
         }
 
         return $response;
+    }
+
+    public function fileExists(string $path): bool
+    {
+        // TODO: Implement fileExists() method.
+    }
+
+    public function deleteDirectory(string $path): void
+    {
+        // TODO: Implement deleteDirectory() method.
+    }
+
+    public function createDirectory(string $path, Config $config): void
+    {
+        // TODO: Implement createDirectory() method.
+    }
+
+    public function visibility(string $path): FileAttributes
+    {
+        // TODO: Implement visibility() method.
+    }
+
+    public function mimeType(string $path): FileAttributes
+    {
+        // TODO: Implement mimeType() method.
+    }
+
+    public function lastModified(string $path): FileAttributes
+    {
+        // TODO: Implement lastModified() method.
+    }
+
+    public function fileSize(string $path): FileAttributes
+    {
+        // TODO: Implement fileSize() method.
+    }
+
+    public function move(string $source, string $destination, Config $config): void
+    {
+        // TODO: Implement move() method.
+    }
+
+    public function delete(string $path): void
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function listContents(string $path, bool $deep): iterable
+    {
+        return [];
+    }
+
+    public function copy(string $source, string $destination, Config $config): void
+    {
+        // TODO: Implement copy() method.
     }
 }
