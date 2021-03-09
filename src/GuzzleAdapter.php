@@ -51,7 +51,7 @@ class GuzzleAdapter implements FilesystemAdapter
      *
      * @var string
      */
-    protected $visibility = AdapterInterface::VISIBILITY_PUBLIC;
+    protected $visibility = 'public';
 
     /**
      * Constructs a GuzzleAdapter object.
@@ -67,7 +67,7 @@ class GuzzleAdapter implements FilesystemAdapter
         $this->supportsHead = $supportsHead;
 
         if (isset(parse_url($base)['user'])) {
-            $this->visibility = AdapterInterface::VISIBILITY_PRIVATE;
+            $this->visibility = 'private';
         };
     }
 
