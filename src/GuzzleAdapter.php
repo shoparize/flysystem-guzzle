@@ -177,10 +177,7 @@ class GuzzleAdapter implements FilesystemAdapter
             return false;
         }
 
-        return [
-            'path' => $path,
-            'stream' => $response->getBody()->detach(),
-        ] + $this->getResponseMetadata($path, $response);
+        return $response->getBody()->detach();
     }
 
     /**
